@@ -6,11 +6,13 @@ const router = require('./routes/talkerRoutes');
 
 const login = require('./routes/loginRoutes');
 
+const validation = require('./middleware/validation');
+
 const app = express();
 
 app.use(bodyParser.json());
 app.use('/talker', router);
-app.use('/login', login);
+app.use('/login', validation, login);
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
