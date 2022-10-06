@@ -4,10 +4,13 @@ const bodyParser = require('body-parser');
 
 const router = require('./routes/talkerRoutes');
 
+const login = require('./routes/loginRoutes');
+
 const app = express();
 
 app.use(bodyParser.json());
 app.use('/talker', router);
+app.use('/login', login);
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
