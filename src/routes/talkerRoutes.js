@@ -54,4 +54,24 @@ router.post('/',
     }
 });
 
+router.put('/:id',
+validationAuthorization,
+validationName,
+validationAge,
+validationTalk,
+validationWatched,
+validationRate,
+  (req, res) => {
+    const resp = JSON.parse(fs.readFileSync(talkerpath));
+    const id = Number(req.params.id);
+    const addedTalker = {
+      id,
+      ...req.body,
+    };
+    const index = resp.indexOf((talker) => talker.id === id);
+    resp.splice(index, 1, addedTalker);
+    fs.writeFileSync(talkerpath, JSON.stringify(resp));
+    res.status(200).json(addedTalker);
+});
+
 module.exports = router;
