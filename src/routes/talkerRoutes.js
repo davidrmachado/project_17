@@ -6,6 +6,9 @@ const path = require('path');
 
 const talkerpath = path.resolve(__dirname, '../talker.json');
 
+const { validationAuthorization, validationName, validationAge,
+  validationTalk, validationWatched, validationRate } = require('../middleware/validationTalker');
+
 router.get('/', async (_req, res) => {
     try {
       const data = await fs.readFileSync(talkerpath);
@@ -28,6 +31,26 @@ router.get('/:id', (req, res) => {
       }
     } catch (error) {
       console.error(`Erro na leitura do arquivo: ${error}`);
+    }
+});
+
+router.post('/',
+  validationAuthorization,
+  validationName,
+  validationAge,
+  validationTalk,
+  validationWatched,
+  validationRate,
+  async (req, res) => {
+    const resp = JSON.parse(fs.readFileSync(talkerpath));
+    const id = resp.length + 1;
+    const addedTalker = {
+      id,
+      ...req.body,
+    };
+    if (req.body) {
+      await fs.writeFileSync(talkerpath, JSON.stringify([...resp, addedTalker]));
+      return res.status(201).json(addedTalker);
     }
 });
 

@@ -6,7 +6,7 @@ const router = require('./routes/talkerRoutes');
 
 const login = require('./routes/loginRoutes');
 
-const validation = require('./middleware/validation');
+const validation = require('./middleware/validationLogin');
 
 const app = express();
 
