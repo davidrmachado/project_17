@@ -63,15 +63,17 @@ validationWatched,
 validationRate,
   (req, res) => {
     const resp = JSON.parse(fs.readFileSync(talkerpath));
-    const { id } = req.params;
+    const id = Number(req.params.id);
     const addedTalker = {
       id,
       ...req.body,
     };
     const index = resp.indexOf((talker) => talker.id === id);
+
     resp.splice(index, 1, addedTalker);
     fs.writeFileSync(talkerpath, JSON.stringify(resp));
-    return res.status(200).json(addedTalker);
+    
+    res.status(200).json(addedTalker);
 });
 
 router.delete('/:id', validationAuthorization, async (req, res) => {
